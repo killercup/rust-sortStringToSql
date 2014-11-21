@@ -1,0 +1,11 @@
+[package]
+
+name = "sort_str_to_sql"
+version = "0.0.1"
+authors = ["Pascal Hertleif <killercup@gmail.com>"]
+license = "MIT"
+readme = "README.md"
+repository = "https://github.com/killercup/rust-sortStringToSql"
+homepage = "https://github.com/killercup/rust-sortStringToSql"
+keywords = ["sql"]
+description = "Convert Sort Expression to SQL that can be used in 'ORDER BY' statement, e.g. '-aired,id' -> 'aird DESC NULLS LAST, id ASC NULLS LAST'."
