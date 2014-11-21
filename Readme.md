@@ -10,7 +10,7 @@ I'm only using this with Postgres myself, so I can't promise you it will work wi
 
 ```toml
 # Cargo.toml
-[dependencies.toml]
+[dependencies.sort_str_to_sql]
 git = "https://github.com/killercup/rust-sortStringToSql"
 ```
 
