@@ -1,17 +1,17 @@
 # Sort String To SQL
 
-This is a rust crate to convert 'sort expressions' to SQL expressions that can be used in an 'ORDER BY'. E.g., `-date,id` will be converted `date DESC NULLS LAST, id ASC NULLS LAST`.
+This is a rust crate to convert 'sort expressions' to SQL expressions that can be used in an 'ORDER BY'. E.g., `-date,id` will be converted to `date DESC NULLS LAST, id ASC NULLS LAST`.
 
-It can be used to parse a query parameter for sorting and to easily convert it to an expression that can be used in an SQL query.
-
-I'm only using this with Postgres myself, so I can't promise you it will work with other databases.
+It can be used to convert a HTTP query parameter to an expression that can be used in an SQL query. (I'm only using this with Postgres myself, so I can't promise you it will work with other databases.)
 
 [![Build Status](https://travis-ci.org/killercup/rust-sortStringToSql.svg)](https://travis-ci.org/killercup/rust-sortStringToSql)
 
+## Install
+
 ```toml
 # Cargo.toml
-[dependencies.sort_str_to_sql]
-git = "https://github.com/killercup/rust-sortStringToSql"
+[dependencies]
+sort_str_to_sql = "~0.0.1"
 ```
 
 ## Input Format
