@@ -6,6 +6,8 @@ It can be used to parse a query parameter for sorting and to easily convert it t
 
 I'm only using this with Postgres myself, so I can't promise you it will work with other databases.
 
+[![Build Status](https://travis-ci.org/killercup/rust-sortStringToSql.svg)](https://travis-ci.org/killercup/rust-sortStringToSql)
+
 ```toml
 # Cargo.toml
 [dependencies.toml]
