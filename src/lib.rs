@@ -7,6 +7,20 @@
 //! - `id-` -> `id ASC NULLS FIRST`
 //! - `-aired,id` -> `aired DESC NULLS LAST, id ASC NULLS LAST`
 //!
+//! # Example
+//!
+//! ```
+//! # use sort_str_to_sql::{sort_str_to_sql};
+//! assert!(
+//!   sort_str_to_sql("-id") ==
+//!   Some("id DESC NULLS LAST".to_string())
+//! )
+//! assert!(
+//!   sort_str_to_sql("-id,+aired-") ==
+//!   Some("id DESC NULLS LAST, aired ASC NULLS FIRST".to_string())
+//! )
+//! ```
+//!
 //! (See tests for more examples.)
 #![crate_name = "sort_str_to_sql"]
 
@@ -40,7 +54,7 @@ fn convert_one_sort_str_field_to_sql(sort_str: &str) -> Option<String> {
 }
 
 /// Convert Sort Expression to SQL
-pub fn sort_str_to_sql(sort_str: &str) -> String {
+pub fn sort_str_to_sql(sort_str: &str) -> Option<String> {
   let split_mark = regex!("[,]");
 
   let sql_array: Vec<String> = split_mark.split(sort_str)
@@ -49,38 +63,38 @@ pub fn sort_str_to_sql(sort_str: &str) -> String {
   .map(|input| input.unwrap())
   .collect();
 
-  sql_array
-  .connect(", ")
-  .to_string()
+  let sql = sql_array.connect(", ").to_string();
+  return if sql == "".to_string() { None } else { Some(sql) };
 }
 
 #[test]
 fn it_works() {
   let tests = vec![
     // Correct inputs
-    ("id", "id ASC NULLS LAST"),
-    ("+id", "id ASC NULLS LAST"),
-    ("-id", "id DESC NULLS LAST"),
-    ("id-", "id ASC NULLS FIRST"),
-    ("+id-", "id ASC NULLS FIRST"),
-    ("-id-", "id DESC NULLS FIRST"),
-    ("show.id", "show.id ASC NULLS LAST"),
-    ("-id,aired-", "id DESC NULLS LAST, aired ASC NULLS FIRST"),
-    ("-id,+aired-", "id DESC NULLS LAST, aired ASC NULLS FIRST"),
-    ("+id-,show.id", "id ASC NULLS FIRST, show.id ASC NULLS LAST"),
+    ("id", Some("id ASC NULLS LAST")),
+    ("+id", Some("id ASC NULLS LAST")),
+    ("-id", Some("id DESC NULLS LAST")),
+    ("id-", Some("id ASC NULLS FIRST")),
+    ("+id-", Some("id ASC NULLS FIRST")),
+    ("-id-", Some("id DESC NULLS FIRST")),
+    ("show.id", Some("show.id ASC NULLS LAST")),
+    ("-id,aired-", Some("id DESC NULLS LAST, aired ASC NULLS FIRST")),
+    ("-id,+aired-", Some("id DESC NULLS LAST, aired ASC NULLS FIRST")),
+    ("+id-,show.id", Some("id ASC NULLS FIRST, show.id ASC NULLS LAST")),
 
     // Incorrect inputs
-    ("lol what", ""),
-    ("+-id-", ""),
+    ("lol what", None),
+    ("+-id-", None),
 
     // Partially correct inputs
-    ("id,++aired+", "id ASC NULLS LAST"),
-    ("?id,+aired-", "aired ASC NULLS FIRST"),
+    ("id,++aired+", Some("id ASC NULLS LAST")),
+    ("?id,+aired-", Some("aired ASC NULLS FIRST")),
   ];
 
-  for &(input, sql) in tests.iter() {
+  for &(input, _sql) in tests.iter() {
+    let sql = match _sql { None => None, Some(str) => Some(str.to_string())};
     assert!(
-      sort_str_to_sql(input) == sql.to_string(),
+      sort_str_to_sql(input) == sql,
       "FAILED `{}` => `{}` NOT `{}`", input, sort_str_to_sql(input), sql
     )
   }

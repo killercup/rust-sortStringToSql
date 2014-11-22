@@ -16,9 +16,9 @@ sort_str_to_sql = "~0.0.1"
 
 ## Input Format
 
-Comma separated list of field names. Prepend a '-' for descending order or a '+' dor ascending order (which is the default, so it's optional). Append a '-' if you want records with `null` values first (this sets `NULLS FIRST`).
+Comma separated list of field names. Prepend a '-' for descending order or a '+' for ascending order (which is the default, so it's optional). Append a '-' if you want records with `null` values first (this sets `NULLS FIRST`).
 
-You can find some examples in `test.js`.
+You can find some examples in the inline `#[test]`.
 
 ## License
 
