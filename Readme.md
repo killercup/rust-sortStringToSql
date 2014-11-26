@@ -11,7 +11,7 @@ It can be used to convert a HTTP query parameter to an expression that can be us
 ```toml
 # Cargo.toml
 [dependencies]
-sort_str_to_sql = "~0.0.1"
+sort_str_to_sql = "~0.0.2"
 ```
 
 ## Input Format

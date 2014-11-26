@@ -1,2 +1,18 @@
+# Rust/Cargo
 /target
 /Cargo.lock
+
+# Editor Stuff
+*.sublime-project
+*.bak
+*~
+
+# System stuff
+.DS_Store
+.Spotlight-V100
+.Trashes
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+.directory
