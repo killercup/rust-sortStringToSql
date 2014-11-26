@@ -56,9 +56,7 @@ fn convert_one_sort_str_field_to_sql(sort_str: &str) -> Option<String> {
 
 /// Convert Sort Expression to SQL
 pub fn sort_str_to_sql(sort_str: &str) -> Option<String> {
-    let split_mark = regex!("[,]");
-
-    let sql_array: Vec<String> = split_mark.split(sort_str)
+    let sql_array: Vec<String> = sort_str.split(',')
     .map(convert_one_sort_str_field_to_sql)
     .filter(|input| input.is_some())
     .map(|input| input.unwrap())
