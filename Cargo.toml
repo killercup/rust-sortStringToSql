@@ -9,3 +9,6 @@ repository = "https://github.com/killercup/rust-sortStringToSql"
 homepage = "https://github.com/killercup/rust-sortStringToSql"
 keywords = ["sql"]
 description = "Convert Sort Expression to SQL that can be used in 'ORDER BY' statement, e.g. '-aired,id' -> 'aird DESC NULLS LAST, id ASC NULLS LAST'."
+
+[dependencies]
+regex = "0.1.3"
