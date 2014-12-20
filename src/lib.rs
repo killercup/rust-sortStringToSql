@@ -14,11 +14,11 @@
 //! assert!(
 //!   sort_str_to_sql("-id") ==
 //!   Some("id DESC NULLS LAST".to_string())
-//! )
+//! );
 //! assert!(
 //!   sort_str_to_sql("-id,+aired-") ==
 //!   Some("id DESC NULLS LAST, aired ASC NULLS FIRST".to_string())
-//! )
+//! );
 //! ```
 //!
 //! (See tests for more examples.)
@@ -29,24 +29,28 @@ extern crate regex;
 #[phase(plugin)] extern crate regex_macros;
 #[cfg(test)] extern crate test;
 
-static SORT_STR_FORMAT: regex::Regex = regex!(
-    r"^(?P<order>[+-]?)(?P<field>[\w.]+)(?P<nulls>[-]?)$"
-);
-
 /// Convert One Sort Expression to SQL
 fn convert_one_sort_str_field_to_sql(sort_str: &str) -> Option<String> {
-    let fields = match SORT_STR_FORMAT.captures(sort_str) {
+    let sort_str_format = regex!(
+        r"^(?P<order>[+-]?)(?P<field>[\w.]+)(?P<nulls>[-]?)$"
+    );
+
+    let fields = match sort_str_format.captures(sort_str) {
         Some(captures) => captures,
         None => return None,
     };
 
-    let field = fields.name("field");
+    let field = match fields.name("field") {
+        Some(f) => f,
+        None => return None,
+    };
+
     let order = match fields.name("order") {
-        "-" => "DESC",
+        Some("-") => "DESC",
         _   => "ASC",
     };
     let nulls = match fields.name("nulls") {
-        "-" => "NULLS FIRST",
+        Some("-") => "NULLS FIRST",
         _   => "NULLS LAST",
     };
 
