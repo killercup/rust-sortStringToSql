@@ -11,5 +11,6 @@ keywords = ["sql"]
 description = "Convert Sort Expression to SQL that can be used in 'ORDER BY' statement, e.g. '-aired,id' -> 'aird DESC NULLS LAST, id ASC NULLS LAST'."
 
 [dependencies]
-regex = "0.1.6"
+regex = "0.1.8"
+regex_macros = "0.1.2"
 
