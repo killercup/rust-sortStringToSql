@@ -1,4 +1,5 @@
 language: rust
+sudo: false
 env:
   global:
     - secure: atJlvOfQprZl/PufrgX8dAv/mHMir27dUMPPXNTQafp1VfkdKiHL/MWwPu6v+ENPbeI1eidGOP+EsizQXYmK0sjluRNLEiEfmwE3JPWuQAPZtoExMoWPcZauTgxU0vqSIJyTzM8fOiqGjJFSBY8vW1ZUAK6z2LV5FeRLlvhbr5k=
