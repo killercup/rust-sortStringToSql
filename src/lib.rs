@@ -23,10 +23,10 @@
 //!
 //! (See tests for more examples.)
 #![crate_name = "sort_str_to_sql"]
+#![feature(plugin)]
 
-#![feature(phase)]
 extern crate regex;
-#[phase(plugin)] extern crate regex_macros;
+#[plugin] extern crate regex_macros;
 #[cfg(test)] extern crate test;
 
 /// Convert One Sort Expression to SQL
