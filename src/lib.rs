@@ -10,14 +10,16 @@
 //! # Example
 //!
 //! ```
+//! #![allow(unstable)]
 //! # use sort_str_to_sql::{sort_str_to_sql};
+//! # use std::borrow::ToOwned;
 //! assert!(
 //!   sort_str_to_sql("-id") ==
-//!   Some("id DESC NULLS LAST".to_string())
+//!   Some("id DESC NULLS LAST".to_owned())
 //! );
 //! assert!(
 //!   sort_str_to_sql("-id,+aired-") ==
-//!   Some("id DESC NULLS LAST, aired ASC NULLS FIRST".to_string())
+//!   Some("id DESC NULLS LAST, aired ASC NULLS FIRST".to_owned())
 //! );
 //! ```
 //!
@@ -27,7 +29,7 @@
 
 extern crate regex;
 #[plugin] extern crate regex_macros;
-#[cfg(test)] extern crate test;
+#[cfg(test)] #[allow(unstable)] extern crate test;
 
 /// Convert One Sort Expression to SQL
 fn convert_one_sort_str_field_to_sql(sort_str: &str) -> Option<String> {
@@ -65,12 +67,14 @@ pub fn sort_str_to_sql(sort_str: &str) -> Option<String> {
     .collect();
 
     let sql = sql_array.connect(", ");
-    return if sql.as_slice() == "" { None } else { Some(sql) };
+    return if sql == "" { None } else { Some(sql) };
 }
 
 #[cfg(test)]
+#[allow(unstable)]
 mod tests {
     use test::Bencher;
+    use std::borrow::ToOwned;
 
     use super::{sort_str_to_sql};
 
@@ -99,10 +103,10 @@ mod tests {
         ];
 
         for &(input, _sql) in tests.iter() {
-            let sql = match _sql { None => None, Some(s) => Some(s.to_string())};
+            let sql = match _sql { None => None, Some(s) => Some(s.to_owned())};
             assert!(
                 sort_str_to_sql(input) == sql,
-                "FAILED `{}` => `{}` NOT `{}`", input, sort_str_to_sql(input), sql
+                "FAILED `{:?}` => `{:?}` NOT `{:?}`", input, sort_str_to_sql(input), sql
             )
         }
     }
