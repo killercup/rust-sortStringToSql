@@ -28,13 +28,13 @@
 #![feature(plugin)]
 
 extern crate regex;
-#[plugin] extern crate regex_macros;
+#[plugin] #[no_link] extern crate regex_macros;
 #[cfg(test)] #[allow(unstable)] extern crate test;
 
 /// Convert One Sort Expression to SQL
 fn convert_one_sort_str_field_to_sql(sort_str: &str) -> Option<String> {
     let sort_str_format = regex!(
-        r"^(?P<order>[+-]?)(?P<field>[\w.]+)(?P<nulls>[-]?)$"
+        r"^(?P<order>[+-]?)(?P<field>[a-zA-Z0-9_\.]+)(?P<nulls>[-]?)$"
     );
 
     let fields = match sort_str_format.captures(sort_str) {
