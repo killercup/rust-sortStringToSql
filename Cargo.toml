@@ -1,7 +1,7 @@
 [package]
 
 name = "sort_str_to_sql"
-version = "0.0.4"
+version = "0.0.5"
 authors = ["Pascal Hertleif <killercup@gmail.com>"]
 license = "MIT"
 readme = "README.md"
