@@ -25,11 +25,11 @@
 //!
 //! (See tests for more examples.)
 #![crate_name = "sort_str_to_sql"]
-#![feature(plugin)]
+#![feature(plugin, test, core)]
 
+#![plugin(regex_macros)]
 extern crate regex;
-#[plugin] #[no_link] extern crate regex_macros;
-#[cfg(test)] #[allow(unstable)] extern crate test;
+#[cfg(test)] extern crate test;
 
 /// Convert One Sort Expression to SQL
 fn convert_one_sort_str_field_to_sql(sort_str: &str) -> Option<String> {
@@ -71,7 +71,6 @@ pub fn sort_str_to_sql(sort_str: &str) -> Option<String> {
 }
 
 #[cfg(test)]
-#[allow(unstable)]
 mod tests {
     use test::Bencher;
     use std::borrow::ToOwned;
