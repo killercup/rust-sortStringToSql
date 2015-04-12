@@ -24,12 +24,17 @@
 //! ```
 //!
 //! (See tests for more examples.)
-#![crate_name = "sort_str_to_sql"]
-#![feature(plugin, test, core)]
 
-#![plugin(regex_macros)]
+#![feature(test)]
+
 extern crate regex;
+
 #[cfg(test)] extern crate test;
+
+// For rust beta
+macro_rules! regex(
+    ($s:expr) => (regex::Regex::new($s).unwrap());
+);
 
 /// Convert One Sort Expression to SQL
 fn convert_one_sort_str_field_to_sql(sort_str: &str) -> Option<String> {
@@ -119,5 +124,4 @@ mod tests {
     fn bench_complex(b: &mut Bencher) {
         b.iter(|| sort_str_to_sql("-date,+id-,show.id"));
     }
-
 }
