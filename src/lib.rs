@@ -25,11 +25,7 @@
 //!
 //! (See tests for more examples.)
 
-#![feature(test)]
-
 extern crate regex;
-
-#[cfg(test)] extern crate test;
 
 // For rust beta
 macro_rules! regex(
@@ -73,55 +69,4 @@ pub fn sort_str_to_sql(sort_str: &str) -> Option<String> {
 
     let sql = sql_array.connect(", ");
     return if sql == "" { None } else { Some(sql) };
-}
-
-#[cfg(test)]
-mod tests {
-    use test::Bencher;
-    use std::borrow::ToOwned;
-
-    use super::{sort_str_to_sql};
-
-    #[test]
-    fn it_works() {
-        let tests = vec![
-            // Correct inputs
-            ("id", Some("id ASC NULLS LAST")),
-            ("+id", Some("id ASC NULLS LAST")),
-            ("-id", Some("id DESC NULLS LAST")),
-            ("id-", Some("id ASC NULLS FIRST")),
-            ("+id-", Some("id ASC NULLS FIRST")),
-            ("-id-", Some("id DESC NULLS FIRST")),
-            ("show.id", Some("show.id ASC NULLS LAST")),
-            ("-id,aired-", Some("id DESC NULLS LAST, aired ASC NULLS FIRST")),
-            ("-id,+aired-", Some("id DESC NULLS LAST, aired ASC NULLS FIRST")),
-            ("+id-,show.id", Some("id ASC NULLS FIRST, show.id ASC NULLS LAST")),
-
-            // Incorrect inputs
-            ("lol what", None),
-            ("+-id-", None),
-
-            // Partially correct inputs
-            ("id,++aired+", Some("id ASC NULLS LAST")),
-            ("?id,+aired-", Some("aired ASC NULLS FIRST")),
-        ];
-
-        for &(input, _sql) in tests.iter() {
-            let sql = match _sql { None => None, Some(s) => Some(s.to_owned())};
-            assert!(
-                sort_str_to_sql(input) == sql,
-                "FAILED `{:?}` => `{:?}` NOT `{:?}`", input, sort_str_to_sql(input), sql
-            )
-        }
-    }
-
-    #[bench]
-    fn bench_simple(b: &mut Bencher) {
-        b.iter(|| sort_str_to_sql("id"));
-    }
-
-    #[bench]
-    fn bench_complex(b: &mut Bencher) {
-        b.iter(|| sort_str_to_sql("-date,+id-,show.id"));
-    }
 }
